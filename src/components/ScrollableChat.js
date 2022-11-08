@@ -8,6 +8,8 @@ import {
   isSameUser,
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
+import { format } from "timeago.js";
+import "./styles.css";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
@@ -16,6 +18,7 @@ const ScrollableChat = ({ messages }) => {
     <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
+          
           <div style={{ display: "flex" }} key={m._id}>
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
@@ -43,8 +46,13 @@ const ScrollableChat = ({ messages }) => {
               }}
             >
               {m.content}
+              <br/>
+              <span className="timeMess">{format(m.createdAt)}</span>
             </span>
+            
           </div>
+        
+          
         ))}
     </ScrollableFeed>
   );

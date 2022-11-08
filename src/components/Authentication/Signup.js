@@ -3,10 +3,10 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
-import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+// import api from "../../middleware/api"
 const Signup = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -43,24 +43,17 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    console.log(name, email, password);
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
+      const {data} = await axios.post(
         "/api/user",
         {
           name,
           email,
           password,
-          pic,
+          pic
         },
-        config
       );
-      console.log(data);
       toast({
         title: "Registration Successful",
         status: "success",
@@ -69,6 +62,7 @@ const Signup = () => {
         position: "bottom",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("token", data.token)
       setPicLoading(false);
       navigate("/chats");
     } catch (error) {
@@ -100,9 +94,9 @@ const Signup = () => {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
-      data.append("upload_preset", "chat-app");
-      data.append("cloud_name", "piyushproj");
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+      data.append("upload_preset", "chat realtime");
+      data.append("cloud_name", "dbtrcut3r");
+      fetch("https://api.cloudinary.com/v1_1/dbtrcut3r/image/upload", {
         method: "post",
         body: data,
       })

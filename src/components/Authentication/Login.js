@@ -3,10 +3,10 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { useState } from "react";
-import axios from "axios";
 import { useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom"
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import api from "../../middleware/api"
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -22,7 +22,7 @@ const Login = () => {
     setLoading(true);
     if (!email || !password) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Please Fill all the Fields",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -32,21 +32,14 @@ const Login = () => {
       return;
     }
 
-    // console.log(email, password);
+    console.log(email, password);
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
 
-      const { data } = await axios.post(
+      const {data}  = await axios.post(
         "/api/user/login",
         { email, password },
-        config
       );
 
-      // console.log(JSON.stringify(data));
       toast({
         title: "Login Successful",
         status: "success",
@@ -55,6 +48,8 @@ const Login = () => {
         position: "bottom",
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
+      localStorage.setItem("token", data.token);
+      console.log(data.token);
       setLoading(false);
       navigate("/chats")
     } catch (error) {
@@ -106,17 +101,7 @@ const Login = () => {
       >
         Login
       </Button>
-      <Button
-        variant="solid"
-        colorScheme="red"
-        width="100%"
-        onClick={() => {
-          setEmail("guest@example.com");
-          setPassword("123456");
-        }}
-      >
-        Get Guest User Credentials
-      </Button>
+     
     </VStack>
   );
 };

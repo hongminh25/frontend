@@ -4,3 +4,27 @@
   overflow-y: scroll;
   scrollbar-width: none;
 }
+
+.timeMess {
+  opacity: 0.7;
+  display: block;
+  font-size: 0.8rem;
+}
+
+.inp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inpImg {
+  background: white;
+  padding: 7px 15px;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer
+}
+
+.inpImg:hover {
+  background-color: rgb(217, 224, 230);
+}
